@@ -1,0 +1,676 @@
+<h3>Liste  non exhaustive de JSONPath</h3>
+<p>Afin de vous aider à ne pas perdre trop de temps et à vous donner des bases de travail pour générer le ou les JSONPath dont vous avez besoin en voici une liste.</p>
+<p>A noter : Les objets touristiques dans Apidae ont des noeuds d'informations spécifiques à leur type. Nous allons donc présenter d'abord des JSONPath généraux puis par type d'objet. Il y a souvent libelleFr dans les JSONPath ce qui correspond au libellé français, libelleEn est pour l'anglais, ... pour les moyens de contact (et d'autres noeuds d'informations) il peut y avoir aussi des informations destinée à une lange par exemple : $.informations.moyensCommunication[?(@.type.id == 204)].coordonnees.fr correspond à l'email pour les français, comme pour les libellés, changer le code de la langue donnera accès à l'information localisée à condition bien sûr qu'elle soit saisie, retrouvez <a target="_blank" href="http://dev.apidae-tourisme.com/fr/documentation-technique/v2/api-de-diffusion/filtrage-des-langues">plus d'infos ici sur les langues</a>. </p>
+<p>Dans la colonne description de cette liste, le mot référence correspond à l'identifiant Apidae du critère correspondant.</p>
+<p>Vous pouvez partir de cette base pour <strong>tester les JSONPath dans l'onglet correspondant du module</strong> : chargez un objet tourtistique grâce à son identifiant et testez la valeur de retour de vos JSONPath</p>
+<h4>JSONPath généraux</h4>
+<table width="744" border="1">
+  <tr>
+    <td width="527">JSONPath</td>
+    <td width="201">Description</td>
+  </tr>
+  <tr>
+    <td>$.id</td>
+    <td>identifiant Apidae</td>
+  </tr>
+  <tr>
+    <td>$.type</td>
+    <td>type d'objet (<a target="_blank" href="http://dev.apidae-tourisme.com/fr/documentation-technique/v2/formats-des-objets/types-dobjet-touristique">voir la documentation</a>)</td>
+  </tr>
+  <tr>
+    <td>$.nom.libelleFr</td>
+    <td>nom en français</td>
+  </tr>
+  <tr>
+    <td>$.nom['libelleEn','libelleFr']</td>
+    <td>nom en anglais puis en français</td>
+  </tr>
+  <tr>
+    <td>$.ouverture.periodeEnClair.libelleFr</td>
+    <td>périodes d'ouvertures en français</td>
+  </tr>
+  <tr>
+    <td>$.illustrations.*.traductionFichiers.*.urlDiaporama</td>
+    <td>images en 900px de large</td>
+  </tr>
+  <tr>
+    <td>$.illustrations.*.traductionFichiers.*.urlFiche</td>
+    <td>images en 210px de large</td>
+  </tr>
+  <tr>
+    <td>$.illustrations.*.traductionFichiers.*.urlListe</td>
+    <td>images en 100px de large</td>
+  </tr>
+  <tr>
+    <td>$.illustrations.*.nom.libelleFr</td>
+    <td>nom des images</td>
+  </tr>
+  <tr>
+    <td>$.illustrations.*.copyright.libelleFr</td>
+    <td>copyright des images</td>
+  </tr>
+  <tr>
+    <td>$.prestations.languesParlees.*.libelleFr</td>
+    <td>langues parlées</td>
+  </tr>
+  <tr>
+    <td>$.prestations.services.*.libelleFr</td>
+    <td>services</td>
+  </tr>
+  <tr>
+    <td>$.prestations.conforts.*.libelleFr</td>
+    <td>éléments de confort</td>
+  </tr>
+  <tr>
+    <td>$.prestations.equipements.*.libelleFr</td>
+    <td>équipements</td>
+  </tr>
+  <tr>
+    <td>$.*.activites.libelleFr</td>
+    <td>activités</td>
+  </tr>
+  <tr>
+    <td>$.informations.structureGestion.nom.libelleFr</td>
+    <td>nom du propriétaire</td>
+  </tr>
+  <tr>
+    <td>$.informations.structureGestion.civilite.libelleFr</td>
+    <td>civilité du propriétaire</td>
+  </tr>
+  <tr>
+    <td>$.localisation..adresse.adresse1</td>
+    <td>adresse1</td>
+  </tr>
+  <tr>
+    <td>$.localisation..adresse.adresse2</td>
+    <td>adresse2</td>
+  </tr>
+  <tr>
+    <td>$.localisation..adresse.adresse3</td>
+    <td>adresse3</td>
+  </tr>
+  <tr>
+    <td>$.localisation.adresse.commune.codePostal</td>
+    <td>code postal</td>
+  </tr>
+  <tr>
+    <td>$.localisation.adresse.commune.nom</td>
+    <td>ville</td>
+  </tr>
+  <tr>
+    <td>$.localisation.adresse.commune.code</td>
+    <td>code insee de la ville</td>
+  </tr>
+  <tr>
+    <td>$.informations.moyensCommunication[?(@.type.id == 204)].coordonnees.fr</td>
+    <td>email (pour fr)</td>
+  </tr>
+  <tr>
+    <td>$.informations.moyensCommunication[?(@.type.id == 205)].coordonnees.fr</td>
+    <td>site web</td>
+  </tr>
+  <tr>
+    <td>$.informations.moyensCommunication[?(@.type.id == 201)].coordonnees.fr</td>
+    <td>téléphone (tous)</td>
+  </tr>
+  <tr>
+    <td>$.informations.moyensCommunication[?(@.type.id == 201 and @.coordonnees.fr =~ /^(?!06|07).*$/)].coordonnees.fr</td>
+    <td>téléphone (fixe)</td>
+  </tr>
+  <tr>
+    <td>$.informations.moyensCommunication[?(@.type.id == 201 and @.coordonnees.fr =~ /^06|^07/)].coordonnees.fr</td>
+    <td>téléphone (mobile)</td>
+  </tr>
+  <tr>
+    <td>$.informations.moyensCommunication[?(@.type.id == 202)].coordonnees.fr</td>
+    <td>fax</td>
+  </tr>
+  <tr>
+    <td>$.informations.moyensCommunication[?(@.type.id == 207)].coordonnees.fr</td>
+    <td>facebook</td>
+  </tr>
+  <tr>
+    <td>$.descriptionTarif.modesPaiement.*.libelleFr</td>
+    <td>moyens de paiement libellés</td>
+  </tr>
+  <tr>
+    <td>$.prestations.labelsTourismeHandicap.*.id</td>
+    <td>références des labels tourisme et handicap</td>
+  </tr>
+  <tr>
+    <td>$.criteresInternes.*.id</td>
+    <td>références critères internes</td>
+  </tr>
+  <tr>
+    <td>$.criteresInternes.*.libelle</td>
+    <td>label critères internes</td>
+  </tr>
+  <tr>
+    <td>$.localisation.geolocalisation.geoJson.coordinates[1]</td>
+    <td>latitude</td>
+  </tr>
+  <tr>
+    <td>$.localisation.geolocalisation.geoJson.coordinates[0]</td>
+    <td>longitude</td>
+  </tr>
+  <tr>
+    <td>$.descriptionTarif.tarifsEnClair.libelleFr</td>
+    <td>texte des tarifs</td>
+  </tr>
+  <tr>
+    <td>$.multimedias[?(@.traductionFichiers.*.extension=='kml' and @.traductionFichiers.*.locale=='fr')].traductionFichiers.*.url</td>
+    <td>url fichers KML</td>
+  </tr>
+  <tr>
+    <td>$.multimedias[?(@.traductionFichiers.*.extension=='kml' and @.traductionFichiers.*.locale=='fr')].nom.libelleFr</td>
+    <td>libellé des fichiers KML</td>
+  </tr>
+  <tr>
+    <td>$.multimedias[?(@.type=='DOCUMENT')].traductionFichiers[?(@.locale=='fr')].url</td>
+    <td>url des documents liés</td>
+  </tr>
+  <tr>
+    <td>$.multimedias[?(@.type=='DOCUMENT')].nom.libelleFr</td>
+    <td>nom des documents liés</td>
+  </tr>
+  <tr>
+    <td>$.donneesPrivees[?(@.nomTechnique == 'identifiant du nom technique')].descriptif.libelleFr</td>
+    <td>libellé d'une donnée privée<br />
+      &quot;identifiant du nom technique&quot; est bien sûr à remplacer par l'identifiant que l'on trouve dans le référenciel Apidae</td>
+  </tr>
+  <tr>
+    <td>$.prestations.nombrePersonnesMinimum</td>
+    <td>nombre minimum de personne pour une presatation</td>
+  </tr>
+  <tr>
+    <td>$.prestations.nombrePersonnesMaximum</td>
+    <td>nombre maximum de personne pour une presatation</td>
+  </tr>
+  <tr>
+    <td>$.prestations.ageMin</td>
+    <td>age minimum pour une prestation</td>
+  </tr>
+  <tr>
+    <td>$.prestations.ageMax</td>
+    <td>age maximum pour une prestation</td>
+  </tr>
+  <tr>
+    <td>$.presentation.descriptifCourt.libelleFr</td>
+    <td>descriptif court</td>
+  </tr>
+  <tr>
+    <td>$.presentation.descriptifDetaille.libelleFr</td>
+    <td>descriptif détaillé</td>
+  </tr>
+</table>
+<h4>JSONPath ACTIVITE</h4>
+<table width="744" border="1">
+  <tr>
+    <td width="531">JSONPath</td>
+    <td width="197">Description</td>
+  </tr>
+  <tr>
+    <td>$.informationsActivite.activiteType.id</td>
+    <td>type d'activité référence</td>
+  </tr>
+  <tr>
+    <td>$.informationsActivite.activiteType.libelleFr</td>
+    <td>type d'activitié libellé</td>
+  </tr>
+  <tr>
+    <td>$.informationsActivite.dureeSeance</td>
+    <td>durée de l'activité</td>
+  </tr>
+</table>
+<h4>JSONPath COMMERCE_ET_SERVICE</h4>
+<table width="744" border="1">
+  <tr>
+    <td width="531">JSONPath</td>
+    <td width="197">Description</td>
+  </tr>
+  <tr>
+    <td>$.informationsCommerceEtService.commerceEtServiceType.id</td>
+    <td> référence du type de commerce</td>
+  </tr>
+  <tr>
+    <td>$.informationsCommerceEtService.commerceEtServiceType.libelleFr</td>
+    <td>libellé du type de commerce</td>
+  </tr>
+</table>
+<h4>JSONPath DEGUSTATION</h4>
+<table width="744" border="1">
+  <tr>
+    <td width="531">JSONPath</td>
+    <td width="197">Description</td>
+  </tr>
+  <tr>
+    <td>$.informationsDegustation.typesProduit.id</td>
+    <td>type de dégustation référence</td>
+  </tr>
+  <tr>
+    <td>$.informationsDegustation.typesProduit.libelleFr</td>
+    <td>type de dégustation libellé</td>
+  </tr>
+  <tr>
+    <td>$.informationsDegustation.charteQualite.id</td>
+    <td>référence de la charte qualité</td>
+  </tr>
+  <tr>
+    <td>$.informationsDegustation.charteQualite.libelleFr</td>
+    <td>libellé de la charte qualité</td>
+  </tr>
+  <tr>
+    <td>$.informationsDegustation.labelsChartesQualite.*.libelleFr</td>
+    <td>labels libellés</td>
+  </tr>
+  <tr>
+    <td>$.informationsDegustation.labelsChartesQualite.*.id</td>
+    <td>références labels</td>
+  </tr>
+  <tr>
+    <td>$.informationsDegustation.aopAocIgps.*.libelleFr</td>
+    <td>aop aoc libellés</td>
+  </tr>
+  <tr>
+    <td>$.informationsDegustation.aopAocIgps.*.id</td>
+    <td>références aop aoc</td>
+  </tr>
+  <tr>
+    <td>$.informationsDegustation.aocDescriptif.libelleFr</td>
+    <td>Aoc libellés</td>
+  </tr>
+  <tr>
+    <td>$.informationsDegustation.aocDescriptif.id</td>
+    <td>Aoc références</td>
+  </tr>
+  <tr>
+    <td>$.informationsDegustation.regionProduction.libelleFr</td>
+    <td>région de production libellé</td>
+  </tr>
+  <tr>
+    <td>$.informationsDegustation.regionProduction.id</td>
+    <td>région de production référence</td>
+  </tr>
+  <tr>
+    <td>$.informationsDegustation.typesProduit.*.libelleFr</td>
+    <td>types de produits libellés</td>
+  </tr>
+  <tr>
+    <td>$.informationsDegustation.typesProduit.*.id</td>
+    <td>types de produits références</td>
+  </tr>
+</table>
+<h4>JSONPath EQUIPEMENT</h4>
+<table width="744" border="1">
+  <tr>
+    <td width="531">JSONPath</td>
+    <td width="197">Description</td>
+  </tr>
+  <tr>
+    <td>$.informationsEquipement.activites.id</td>
+    <td>référence d'activité</td>
+  </tr>
+  <tr>
+    <td>$.informationsEquipement.activites.libelleFr</td>
+    <td>libellé de l'activité</td>
+  </tr>
+  <tr>
+    <td>$.informationsEquipement.rubrique.id</td>
+    <td>référence du type</td>
+  </tr>
+  <tr>
+    <td>$.informationsEquipement.rubrique.libelleFr</td>
+    <td>libellé du type</td>
+  </tr>
+  <tr>
+    <td>$.informationsEquipement.itineraire.distance</td>
+    <td>distance d'un itinéraire</td>
+  </tr>
+  <tr>
+    <td>$.informationsEquipement.itineraire.denivellation</td>
+    <td>dénivellé d'un itinéraire</td>
+  </tr>
+  <tr>
+    <td>$.informationsEquipement.itineraire.dureeJournaliere</td>
+    <td>durée d'un itinéraire</td>
+  </tr>
+</table>
+<h4>JSONPath FETE_ET_MANIFESTATION</h4>
+<table width="744" border="1">
+  <tr>
+    <td width="531">JSONPath</td>
+    <td width="197">Description</td>
+  </tr>
+  <tr>
+    <td>$.informationsFeteEtManifestation.typesManifestation.id</td>
+    <td>référence du type de FMA</td>
+  </tr>
+  <tr>
+    <td>$.informationsFeteEtManifestation.typesManifestation.libelleFr</td>
+    <td>libellé du type de FMA</td>
+  </tr>
+  <tr>
+    <td>$.informationsFeteEtManifestation.categories.*.id</td>
+    <td>référence de la catégorie de FMA</td>
+  </tr>
+  <tr>
+    <td>$.informationsFeteEtManifestation.categories.*.libelleFr</td>
+    <td>libellé de la catégorie de FMA</td>
+  </tr>
+  <tr>
+    <td>$.informationsFeteEtManifestation.evenementGenerique.id</td>
+    <td>référence du sous type d'évènement (fête de la musique, etc.)</td>
+  </tr>
+  <tr>
+    <td>$.informationsFeteEtManifestation.evenementGenerique.libelleFr</td>
+    <td>libellé du sous type d'évènement</td>
+  </tr>
+  <tr>
+    <td>$.informationsFeteEtManifestation.portee.id</td>
+    <td>référence de la portée de la FMA</td>
+  </tr>
+  <tr>
+    <td>$.informationsFeteEtManifestation.portee.libelleFr</td>
+    <td>libellé de la portée</td>
+  </tr>
+</table>
+<h4>JSONPath HEBERGEMENT_COLLECTIF</h4>
+<table width="744" border="1">
+  <tr>
+    <td width="531">JSONPath</td>
+    <td width="197">Description</td>
+  </tr>
+  <tr>
+    <td>$.informationsHebergementCollectif.hebergementCollectifType.id</td>
+    <td>référence du type d'Hébergement Collectif</td>
+  </tr>
+  <tr>
+    <td>$.informationsHebergementCollectif.hebergementCollectifType.libelleFr</td>
+    <td>libellé du type d'Hébergement Collectif</td>
+  </tr>
+  <tr>
+    <td>$.informationsHebergementCollectif.typesHabitation.*.id</td>
+    <td>référence du type d'habitation</td>
+  </tr>
+  <tr>
+    <td>$.informationsHebergementCollectif.agrements.*.type.libelleFr</td>
+    <td>libellé du type d'agrément</td>
+  </tr>
+  <tr>
+    <td>$.informationsHebergementCollectif.agrements.*.numero</td>
+    <td>numéro de l'agrément</td>
+  </tr>
+  <tr>
+    <td>$.informationsHebergementCollectif.labels.*.id</td>
+    <td>référence du label</td>
+  </tr>
+  <tr>
+    <td>$.informationsHebergementCollectif.labels.*.libelleFr</td>
+    <td>libellé du label</td>
+  </tr>
+  <tr>
+    <td>$.informationsHebergementCollectif.chaineEtLabel.id</td>
+    <td>référence de la chaine</td>
+  </tr>
+  <tr>
+    <td>$.informationsHebergementCollectif.chaineEtLabel.libelleFr</td>
+    <td>libellé de la chaine</td>
+  </tr>
+  <tr>
+    <td>$.informationsHebergementCollectif.classementPrefectoral.id</td>
+    <td>référence du classement préfectoral</td>
+  </tr>
+  <tr>
+    <td>$.informationsHebergementCollectif.classementPrefectoral.libelleFr</td>
+    <td>libellé du classement préfectoral</td>
+  </tr>
+</table>
+<h4>JSONPath HEBERGEMENT_LOCATIF</h4>
+<table width="744" border="1">
+  <tr>
+    <td width="531">JSONPath</td>
+    <td width="197">Description</td>
+  </tr>
+  <tr>
+    <td>$.informationsHebergementLocatif.hebergementLocatifType.id</td>
+    <td>référence du type d'Hébergement Locatif</td>
+  </tr>
+  <tr>
+    <td>$.informationsHebergementLocatif.hebergementLocatifType.libelleFr</td>
+    <td>libellé du type d'Hébergement Locatif</td>
+  </tr>
+  <tr>
+    <td>$.informationsHebergementLocatif.labels.*.libelleFr</td>
+    <td>libellé du label</td>
+  </tr>
+  <tr>
+    <td>$.informationsHebergementLocatif.labels.*.id</td>
+    <td>référence du label</td>
+  </tr>
+  <tr>
+    <td>$.informationsHebergementLocatif.classementPrefectoral.libelleFr</td>
+    <td>libellé du classement préfectoral</td>
+  </tr>
+  <tr>
+    <td>$.informationsHebergementLocatif.classementPrefectoral.id</td>
+    <td>référence du classement préfectoral</td>
+  </tr>
+</table>
+<h4>JSONPath HOTELLERIE</h4>
+<table width="744" border="1">
+  <tr>
+    <td width="531">JSONPath</td>
+    <td width="197">Description</td>
+  </tr>
+  <tr>
+    <td>$.informationsHotellerie.hotellerieType.id</td>
+    <td>référence du type d'hôtel</td>
+  </tr>
+  <tr>
+    <td>$.informationsHotellerie.hotellerieType.libelleFr</td>
+    <td>libellé du type d'hôtel</td>
+  </tr>
+  <tr>
+    <td>$.informationsHotellerie.classement.libelleFr</td>
+    <td>libellé du classement préfectoral</td>
+  </tr>
+  <tr>
+    <td>$.informationsHotellerie.classement.id</td>
+    <td>référence du classement préfectoral</td>
+  </tr>
+  <tr>
+    <td>$.informationsHotellerie.labels.*.id</td>
+    <td>référence du label</td>
+  </tr>
+  <tr>
+    <td>$.informationsHotellerie.labels.*.libelleFr</td>
+    <td>libellé du label</td>
+  </tr>
+</table>
+<h4>JSONPath HOTELLERIE_PLEIN_AIR</h4>
+<table width="744" border="1">
+  <tr>
+    <td width="531">JSONPath</td>
+    <td width="197">Description</td>
+  </tr>
+  <tr>
+    <td>$.informationsHotelleriePleinAir.hotelleriePleinAirType.id</td>
+    <td>référence du type de camping</td>
+  </tr>
+  <tr>
+    <td>$.informationsHotelleriePleinAir.hotelleriePleinAirType.libelleFr</td>
+    <td>libellé du type  de camping</td>
+  </tr>
+  <tr>
+    <td>$.informationsHotellerie.classement.libelleFr</td>
+    <td>libellé du classement préfectoral</td>
+  </tr>
+  <tr>
+    <td>$.informationsHotellerie.classement.id</td>
+    <td>référence du classement préfectoral</td>
+  </tr>
+  <tr>
+    <td>$.informationsHotelleriePleinAir.labels.*.id</td>
+    <td>référence du label</td>
+  </tr>
+  <tr>
+    <td>$.informationsHotelleriePleinAir.labels.*.libelleFr</td>
+    <td>libellé du label</td>
+  </tr>
+  <tr>
+    <td>$.informationsHotelleriePleinAir.chaines.*.id</td>
+    <td>référence de la chaine</td>
+  </tr>
+  <tr>
+    <td>$.informationsHotelleriePleinAir.chaines.*.libelleFr</td>
+    <td>libellé de la chaine</td>
+  </tr>
+</table>
+<h4>JSONPath PATRIMOINE_CULTUREL</h4>
+<table width="744" border="1">
+  <tr>
+    <td width="531">JSONPath</td>
+    <td width="197">Description</td>
+  </tr>
+  <tr>
+    <td>$.informationsPatrimoineCulturel.patrimoineCulturelType.id</td>
+    <td>référence du type de patrimoine</td>
+  </tr>
+  <tr>
+    <td>$.informationsPatrimoineCulturel.patrimoineCulturelType.libelleFr</td>
+    <td>libellé du type  de patrimoine</td>
+  </tr>
+  <tr>
+    <td>$.informationsPatrimoineCulturel.categories.*.id</td>
+    <td>références des catégories</td>
+  </tr>
+  <tr>
+    <td>$.informationsPatrimoineCulturel.categories.*.libelleFr</td>
+    <td>libellés  des catégories</td>
+  </tr>
+  <tr>
+    <td>$.informationsPatrimoineCulturel.themes.*.id</td>
+    <td>références des catégories</td>
+  </tr>
+  <tr>
+    <td>$.informationsPatrimoineCulturel.themes.*.libelleFr</td>
+    <td>libellés  des catégories</td>
+  </tr>
+</table>
+<h4>JSONPath PATRIMOINE_NATUREL</h4>
+<table width="744" border="1">
+  <tr>
+    <td width="531">JSONPath</td>
+    <td width="197">Description</td>
+  </tr>
+  <tr>
+    <td>$.informationsPatrimoineNaturel.patrimoineCulturelType.id</td>
+    <td>référence du type de patrimoine</td>
+  </tr>
+  <tr>
+    <td>$.informationsPatrimoineNaturel.patrimoineCulturelType.libelleFr</td>
+    <td>libellé du type  de patrimoine</td>
+  </tr>
+  <tr>
+    <td>$.informationsPatrimoineNaturel.categories.*.id</td>
+    <td>références des catégories</td>
+  </tr>
+  <tr>
+    <td>$.informationsPatrimoineNaturel.categories.*.libelleFr</td>
+    <td>libellés  des catégories</td>
+  </tr>
+  <tr>
+    <td>$.informationsPatrimoineNaturel.themes.*.id</td>
+    <td>références des catégories</td>
+  </tr>
+  <tr>
+    <td>$.informationsPatrimoineNaturel.themes.*.libelleFr</td>
+    <td>libellés  des catégories</td>
+  </tr>
+</table>
+<h4>JSONPath RESTAURATION</h4>
+<table width="744" border="1">
+  <tr>
+    <td width="531">JSONPath</td>
+    <td width="197">Description</td>
+  </tr>
+  <tr>
+    <td>$.informationsRestauration.restaurationType.id</td>
+    <td>référence du type de restauration</td>
+  </tr>
+  <tr>
+    <td>$.informationsRestauration.restaurationType.libelleFr</td>
+    <td>libellé du type  de restauration</td>
+  </tr>
+  <tr>
+    <td>$.informationsPatrimoineNaturel.categories.*.id</td>
+    <td>références des catégories</td>
+  </tr>
+  <tr>
+    <td>$.informationsPatrimoineNaturel.categories.*.libelleFr</td>
+    <td>libellés  des catégories</td>
+  </tr>
+  <tr>
+    <td>$.informationsPatrimoineNaturel.labels.*.id</td>
+    <td>références des labels</td>
+  </tr>
+  <tr>
+    <td>$.informationsPatrimoineNaturel.labels.*.libelleFr</td>
+    <td>libellés  des labels</td>
+  </tr>
+  <tr>
+    <td>$.informationsRestauration.classementsGuides.*.id</td>
+    <td>références des classements de guide</td>
+  </tr>
+  <tr>
+    <td>$.informationsRestauration.classementsGuides.*.libelleFr</td>
+    <td>libellés des classements de guide</td>
+  </tr>
+</table>
+<h4>JSONPath SEJOUR_PACKAGE</h4>
+<table width="744" border="1">
+  <tr>
+    <td width="531">JSONPath</td>
+    <td width="197">Description</td>
+  </tr>
+  <tr>
+    <td>$.informationsSejourPackage.activiteCategories.id</td>
+    <td>référence de la catégorie d'activité</td>
+  </tr>
+  <tr>
+    <td>$.informationsSejourPackage.activiteCategories.libelleFr</td>
+    <td>libellé de la catégorie d'activité</td>
+  </tr>
+  <tr>
+    <td>$.informationsSejourPackage.activitesCulturelles.id</td>
+    <td>référence de l'activité culturelle</td>
+  </tr>
+  <tr>
+    <td>$.informationsSejourPackage.activitesCulturelles.libelleFr</td>
+    <td>libellés de l'activité culturelle</td>
+  </tr>
+  <tr>
+    <td>$.informationsSejourPackage.typesHebergement.id</td>
+    <td>référence du type d'hebergement</td>
+  </tr>
+  <tr>
+    <td>$.informationsSejourPackage.typesHebergement.libelleFr</td>
+    <td>libellé  du type d'hébergement</td>
+  </tr>
+  <tr>
+    <td>$.informationsSejourPackage.formuleHebergement.id</td>
+    <td>référence de la formule  d'hébergement</td>
+  </tr>
+  <tr>
+    <td>$.informationsSejourPackage.formuleHebergement.libelleFr</td>
+    <td>libellé de la formule  d'hébergement</td>
+  </tr>
+  <tr>
+    <td>$.informationsSejourPackage.transports.*.id</td>
+    <td>références des transports</td>
+  </tr>
+  <tr>
+    <td>$.informationsSejourPackage.transports.*.libelleFr</td>
+    <td> libellés des transports</td>
+  </tr>
+</table>

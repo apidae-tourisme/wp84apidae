@@ -1,0 +1,17 @@
+<h4>Les templates de détail</h4>
+<ul>
+  <li>Vous aurez à préciser un nom afin de le retrouver dans la partie fabrique à shortcode.</li>
+  <li>Vu que le template de détail est lié aux informations retournées par l'API, vous pourrez préciser, de la la même manière que pour les listes, les champs (ou noeuds d'information retournés) et choisir la langue. </li>
+  <li>Si vous le désirez, au travers d'une configuration avancé et si vous avez bien <a target="_blank" href="http://dev.apidae-tourisme.com/fr/documentation-technique/v2/api-de-diffusion/liste-des-services/v002objet-touristiqueget-by-id">pris connaissance de la documentation technique</a> sur la récupération de la donnée pour un objet touristique, vous pouvez préciser les variables en get envoyée lors de la requête de récupération comme ceci : responseFields=id,nom&locales=fr,en<br />
+    <br />
+Dans cet exemple-ci le responseFields est inutile car précisé avant mais c'est pour montrer la logique. L'intérêt serait de pouvoir récupérer plusieurs langues au besoin, donc vous pourriez simplement préciser :
+<pre>locales=fr,en</pre>
+  Si vous avez un site anglais et que le nom de l'objet n'est pas traduit vous pourriez alors afficher le nom le nom de l'objet touristique soit en récupérant le nom anglais s'il existe sinon le français avec le tag : {{$.nom['libelleEn','libelleFr']}}</li>
+  <li>Vous pourrez en utilisant les 3 types de tag précisés dans la partie Template de liste indiquer le contenu de la balise Title. Faites bient attention de ne pas mettre de balises HTML et de<strong> rester sur du texte pur</strong> sinon vous casserez le code de votre page !</li>
+  <li>Vous pourrez ensuite préciser des fichiers css puis js à rajouter dans votre page, chaque fichier doit être séparé par des virgules.</li>
+  <li>Pour le code du template, il est siumilaire à celui du template de liste avec les 3 types de tag (les JSONPath direct, les foreach et les forif). <br />
+    Il y en a un supplémentaire et spécifique pour le lien de retour. Si on vient d'une liste, la page de détail se souviendra de la page de liste.<br />
+  {{<span class="wp84yellow">returnlink</span>|||<span class="wp84pink">&lt;p&gt;&lt;a href=&quot;[retlink]&quot;&gt;retour à la liste&lt;/a&gt;&lt;/p&gt;</span>|||<span class="wp84lightgreen">&lt;p&gt;pas de lien de retour&lt;/p&gt;</span>}}  <br />
+  Après le mot clé <span class="wp84yellow">returnlink</span>
+  qui indique que nous sommes sur un lien de retour nous avons ensuite <span class="wp84pink">un microtemplate avec le mot clé [retlink] qui sera remplacé par l'url de provencance</span>, et si la page a été accédée directement <span class="wp84lightgreen">sans passer par une liste, ce sera le 2e microtemplate qui s'affichera</span>. Si on ne veut pas de template si on ne vient pas d'une liste, on peut faire de la manière suivante : {{returnlink|||&lt;p&gt;&lt;a href=&quot;[retlink]&quot;&gt;retour à la liste&lt;/a&gt;&lt;/p&gt;|||}} et vu que le 2e microtemplate est vide, rien ne s'affichera.</li>
+</ul>

@@ -1,0 +1,65 @@
+ul.ws84setting-menu li {
+   display: inline;
+}
+.wp84errorfield {
+    color:red;
+}
+.wp84lft {
+    float:left;
+}
+.wp84form {
+    padding:2px;
+    border:1px solid #777;
+    border-radius: 5px;
+}
+.wp84det {
+    padding:2px;
+    margin:2px;
+    border:1px solid #999;
+    border-radius: 5px;
+}
+.wp84encart {
+    background-color:#333;
+    color:#fff;
+    border-radius: 10px;
+    padding: 0 10px;
+}
+.wp84lidoc {
+    padding:4px;
+    margin:4px;
+    border:2px solid #aaa;
+    border-radius: 5px;
+}
+.wp84apidae_json {
+    width:30%;
+    float:left;
+    overflow:scroll;
+    margin:3px;
+    padding:3px;
+    border: 2px solid #333;
+    border-radius: 5px;
+}
+.wp84yellow {
+    background-color:yellow;
+}
+.wp84lightyellow {
+    background-color:#FFFFC0;
+}
+.wp84pink {
+    background-color:#FFC0FF;
+}
+.wp84red {
+    background-color:#FFC0C0;
+}
+.wp84purple {
+    background-color:#C0C0FF;
+}
+.wp84lightblue {
+    background-color:#C0FFFF;
+}
+.wp84lightgreen {
+    background-color:#C0FFC0;
+}
+.wp84lightgreen2 {
+    background-color:#C0FFCC;
+}
