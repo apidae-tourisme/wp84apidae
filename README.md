@@ -28,3 +28,7 @@ La contribution à ce projet sera disponible via la page github quand elle sera 
 ## Licence
 
 La licence de ce plugin est en GNU GPLv3 voir LICENSE.txt pour plus d'information.
+
+## Auteur
+
+Plugin développé par Michel CHOUROT / Vaucluse Provence Attractivité http://vaucluseprovence-attractivite.com/
