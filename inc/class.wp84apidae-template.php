@@ -20,7 +20,7 @@ class WP84ApidaeTemplate{
                 if(count($inputs)===3){
                     $aJP = explode(';;',$inputs[1]);
                     $iCols=count($aJP);
-                    $aR=[];
+                    $aR=array();
                     $iCnt=0;
                     $samelength=true;
                     $lastlength=false;
@@ -84,7 +84,7 @@ class WP84ApidaeTemplate{
                 if(count($inputs)===3){
                     $aJP = explode(';;',$inputs[1]);
                     $iCols=count($aJP);
-                    $aR=[];
+                    $aR=array();
                     $iCnt=0;
                     $samelength=true;
                     $lastlength=false;
