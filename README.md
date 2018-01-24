@@ -15,7 +15,11 @@ Les nombreux exemples de JSONPath disponibles dans la documentation, et l'outil 
 ## Installation
 
 Cet outil a été développé avec php 5.6 et wordpress 4.7 et 4.8. Hors de ce contexte le plugin pourrait ne pas marcher.
-Copiez le dossier wp84apidae dans le dossier wp-content/plugins de votre worpdress et installez l'extension. Attention l'utilisateur apache ou équivalent de votre serveur devra avoir des droits d'écriture. A l'installation de l'extension un dossier tmp avec les droits 0755 est créé pour la gestion du cache. Si après l'activation de l'extension ce dossier n'existe pas, c'est que vous avez un soucis de droits. Pour info, il est préférable que le wp-cron de votre wordpress soit activé car il effacera toutes les heures les fichiers de cache qui ne sont plus valides.
+Copiez le dossier wp84apidae dans le dossier wp-content/plugins de votre worpdress et installez l'extension. 
+
+**IMPORTANT** : le nom du dossier du plugin doit être "wp84apidae"
+
+Attention l'utilisateur apache ou équivalent de votre serveur devra avoir des droits d'écriture. A l'installation de l'extension un dossier tmp avec les droits 0755 est créé pour la gestion du cache. Si après l'activation de l'extension ce dossier n'existe pas, c'est que vous avez un soucis de droits. Pour info, il est préférable que le wp-cron de votre wordpress soit activé car il effacera toutes les heures les fichiers de cache qui ne sont plus valides.
 
 ## Documentation
 
