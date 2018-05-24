@@ -127,16 +127,7 @@ class WP84ApidaeReqAPI{
          * @return boolean
          */
     static public function getCache($md){
-        $iCache=get_option('wp84apidae_dureecache',15);
-        if($iCache==0){
-            return false;
-        }
-        $sFl = WP84APIDAE_PLUGIN_DIR.'/tmp/'.$md.'.json';
-        if(file_exists($sFl) && (time() - filemtime($sFl)) < ($iCache*60)){
-            return file_get_contents($sFl);
-        }else{
-            return false;
-        }
+        return get_transient('wp84apidae_'.$md);
     }
     /**
      * détermine le contenu d'un fichier de cache, supprime les fichiers expirés si wp_cron est désactivé
@@ -149,44 +140,25 @@ class WP84ApidaeReqAPI{
         if($iCache==0){
             return false;
         }else{
-            if(defined('DISABLE_WP_CRON') && DISABLE_WP_CRON === true){
-                self::purgeCache();
-            }
-            if(is_dir(WP84APIDAE_PLUGIN_DIR.'/tmp')){
-            $sFl = WP84APIDAE_PLUGIN_DIR.'/tmp/'.$md.'.json';
-                if(!file_put_contents($sFl,$content)){
-                    return false;
-                }else{
-                    return true;
-                }
-            }else{
-                return false;
-            }
-           
+            return set_transient('wp84apidae_'.$md, $content, $iCache);
         }
     }
     /**
      * vide le cache des fichiers arrivés à expiration
      */
     static public function purgeCache(){
-        if(is_dir(WP84APIDAE_PLUGIN_DIR.'/tmp')){
-            $files = glob(WP84APIDAE_PLUGIN_DIR.'/tmp/*', GLOB_MARK);
-            foreach ($files as $file) {
-                if((time() - filemtime($file)) > (get_option('wp84apidae_dureecache',15)*60)){
-                    unlink($file);
-                }
-            }
-        }
+        delete_expired_transients(true);
     }
     /**
      * vide le cache
      */
     static public function emptyCache(){
-        if(is_dir(WP84APIDAE_PLUGIN_DIR.'/tmp')){
-            $files = glob(WP84APIDAE_PLUGIN_DIR.'/tmp/*', GLOB_MARK);
-            foreach ($files as $file) {
-                unlink($file);
-            }
-        }
+        global $wpdb;
+
+		$wpdb->query( $wpdb->prepare(
+			"DELETE FROM {$wpdb->options}
+			WHERE option_name LIKE %s",
+			$wpdb->esc_like( '_transient_wp84apidae_' ) . '%'
+		) );
     }
 }
