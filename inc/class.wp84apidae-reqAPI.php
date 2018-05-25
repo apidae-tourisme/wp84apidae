@@ -50,7 +50,7 @@ class WP84ApidaeReqAPI{
         return $ret;
     }
     /**
-     * retourne une cahine de caractère aléatoire de 8 caractères de longueur dans les chiffres et lettres minuscules
+     * retourne une chaine de caractère aléatoire de 8 caractères de longueur dans les chiffres et lettres minuscules
      * @return string
      */
     public static function genRandomSeed(){
@@ -122,7 +122,7 @@ class WP84ApidaeReqAPI{
             }
         }
         /**
-         * récupère le contenu d'un fichier de cache s'il existe et s'il n'est pas expiré
+         * récupère le contenu du cache s'il existe et s'il n'est pas expiré
          * @param type $md
          * @return boolean
          */
@@ -130,7 +130,7 @@ class WP84ApidaeReqAPI{
         return get_transient('wp84apidae_'.$md);
     }
     /**
-     * détermine le contenu d'un fichier de cache, supprime les fichiers expirés si wp_cron est désactivé
+     * détermine le contenu d'un fichier de cache
      * @param type $md
      * @param type $content
      * @return boolean
@@ -140,7 +140,7 @@ class WP84ApidaeReqAPI{
         if($iCache==0){
             return false;
         }else{
-            return set_transient('wp84apidae_'.$md, $content, $iCache);
+            return set_transient('wp84apidae_'.$md, $content, $iCache*60);
         }
     }
     /**
@@ -155,10 +155,10 @@ class WP84ApidaeReqAPI{
     static public function emptyCache(){
         global $wpdb;
 
-		$wpdb->query( $wpdb->prepare(
-			"DELETE FROM {$wpdb->options}
-			WHERE option_name LIKE %s",
-			$wpdb->esc_like( '_transient_wp84apidae_' ) . '%'
-		) );
+	$wpdb->query( $wpdb->prepare(
+		"DELETE FROM {$wpdb->options}
+		WHERE option_name LIKE %s",
+		$wpdb->esc_like( '_transient_wp84apidae_' ) . '%'
+	) );
     }
 }
