@@ -176,8 +176,9 @@ class WP84ApidaeReqAPI {
 		global $wpdb;
 		$wpdb->query( $wpdb->prepare(
 			"DELETE FROM {$wpdb->options}
-		WHERE option_name LIKE %s",
-			$wpdb->esc_like( '_transient_wp84apidae_' ) . '%'
+		WHERE option_name LIKE %s OR option_name LIKE %s",
+			$wpdb->esc_like( '_transient_wp84apidae_' ) . '%',
+			$wpdb->esc_like( '_transient_timeout_wp84apidae_' ) . '%'
 		) );
 	}
 }
