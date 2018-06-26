@@ -364,7 +364,7 @@ class WP84ApidaeTemplate {
 						$sAddPg  = $i == 1 ? '' : "$i/";
 						$sDDebut = get_query_var( 'datedebut', '' );
 						$sDFin   = get_query_var( 'datefin', '' );
-						$aQA     = ( count( $aParams ) > 0 ) ? array( 'apicritere' => implode( '/', $aParams ) ) : array();
+						$aQA     = ( count( $aParams ) > 0 ) ? array( 'apicritere' => implode( '/', $aParams ), 'apisearch' => get_query_var('apisearch') ) : array('apisearch' => get_query_var('apisearch'));
 						if ( $sDDebut !== '' && WP84Apidae::checkDateFormat( $sDDebut ) ) {
 							$aQA['datedebut'] = $sDDebut;
 						}
