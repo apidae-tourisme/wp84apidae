@@ -3,3 +3,94 @@
 <p>Vous pouvez cocher la case liste paginée mais<strong> une seule liste paginée doit être insérée par page</strong>. Pour info, lorsque la case paginée n'est pas cochée le mot clé [moteur] dans l'entête de liste est remplacé par du vide, de même pour le tag de pagination.</p>
 <p>Il est possible de spécifier un nombre de réponses, par défaut il y en aura 20. Cette option est utile pour faire remonter, par exemple, un pavé de 3 offres aléatoires.</p>
 <p>Pour plus de facilité on peut préciser des fichiers css et js supplémentaires selon les besoins.</p>
+<section class="googlemaps">
+	Si vous souhaitez ajouter google maps à votre liste vous devez rajouter un script sur la page concernée ainsi que le script de google maps.<br>
+	Donc dans le shortcode <code>[apidaelist list=1 templist=2 detail=3 moteur=4 paged=1 nb=30 js="/wp-content/themes/<span class="wp84yellow">VOTRE_THEME_ENFANT/LIEN_VERS_LE_JS</span>,https://maps.googleapis.com/maps/api/js?&key=<span class="wp84yellow">YOUR_API_KEY</span>&callback=initMap"]</code><br>
+	<br>N'oubliez pas aussi d'ajouter l'élément de carte sur votre page <code>&lt;div id="map" style="width:100%;height: 500px;"&gt;&lt;/div&gt;</code><br>
+	<br>Voici un script tout prêt à ajouter dans votre thème enfant que vous pouvez modifier à votre guise, l'ajout des marqueurs est documentée dans les templates de liste<br><br>
+	<pre>var markers = [],
+   map,
+   infoWindow;
+
+if (typeof markerNodes === 'undefined')
+   var markerNodes = [];
+
+function initMap() {
+   map = document.getElementById('map');
+   if (markerNodes.length &gt; 0) {
+      if (map !== null) {
+         map = new google.maps.Map(map, {
+            center: {lat: 45.19, lng: 4.73},
+            zoom: 7,
+            mapTypeId: 'roadmap',
+            mapTypeControlOptions: {style: google.maps.MapTypeControlStyle.DROPDOWN_MENU},
+            gestureHandling: 'cooperative'
+         });
+         infoWindow = new google.maps.InfoWindow();
+         addLocations();
+      }
+   } else {
+      jQuery(map).remove();
+   }
+}
+
+function addLocations() {
+   var bounds = new google.maps.LatLngBounds(),
+      i = 0;
+   jQuery.each(markerNodes, function (j, markerNode) {
+      if (markerNode.lat == '' || markerNode.lng == '')
+         return;
+      var latlng = new google.maps.LatLng(parseFloat(markerNode.lat), parseFloat(markerNode.lng));
+      createMarker(latlng, markerNode.name, markerNode.addressLine1, markerNode.addressLine2, markerNode.link);
+      bounds.extend(latlng);
+      i = j;
+   });
+   if (i)
+      map.fitBounds(bounds);
+}
+
+var last_marker = false;
+
+function showInfo(marker) {
+   if (last_marker !== false) {
+      closeInfo(last_marker);
+   }
+   last_marker = marker;
+   infoWindow.setContent(marker.html);
+   infoWindow.open(map, marker);
+   marker.setAnimation(google.maps.Animation.BOUNCE);
+}
+
+function closeInfo(marker) {
+   marker.setAnimation(null);
+   infoWindow.close();
+}
+
+function createMarker(latlng, name, address1, address2, link) {
+   var html = "&lt;a href='" + link + "'&gt;&lt;b&gt;" + name + "&lt;/b&gt;&lt;/a&gt; &lt;br/&gt;" + address1 + "&lt;br/&gt;" + address2;
+   var marker = new google.maps.Marker({
+      map: map,
+      position: latlng
+   });
+   marker.html = html;
+   google.maps.event.addListener(marker, 'click', function () {
+      showInfo(marker)
+   });
+   markers.push(marker);
+}
+
+jQuery(document).ready(function ($) {
+   $(".apidae_cell").hover(function () {
+      var i = $(".apidae_cell").index(this);
+      if (typeof markers[i] !== 'undefined') {
+         showInfo(markers[i]);
+      }
+   }, function () {
+
+   });
+
+   $("input[name=apisearch]").on("search", function() {
+      $(this).closest('form').submit();
+   });
+});</pre>
+</section>
