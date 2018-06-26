@@ -108,7 +108,6 @@ class WP84Apidae {
 			</div>
 			<?php
 		}
-
 		delete_transient( 'wp84apidae_msg_status' );
 	}
 
