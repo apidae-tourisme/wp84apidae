@@ -10,6 +10,65 @@ function toUrl( $string ) {
 	return urlencode( esc_attr( str_replace( ' ', '-', sanitize_title( $string ) ) ) );
 }
 
+function wp84_slugify( $string ) {
+	//Lower case everything
+	$string         = mb_strtolower( $string );
+	$normalizeChars = array(
+		'š' => 's',
+		'ž' => 'z',
+		'à' => 'a',
+		'á' => 'a',
+		'â' => 'a',
+		'ã' => 'a',
+		'ä' => 'a',
+		'å' => 'a',
+		'æ' => 'ae',
+		'ç' => 'c',
+		'è' => 'e',
+		'é' => 'e',
+		'ê' => 'e',
+		'ë' => 'e',
+		'ì' => 'i',
+		'í' => 'i',
+		'î' => 'i',
+		'ï' => 'i',
+		'ð' => 'o',
+		'ñ' => 'n',
+		'ń' => 'n',
+		'ò' => 'o',
+		'ó' => 'o',
+		'ô' => 'o',
+		'õ' => 'o',
+		'ö' => 'o',
+		'ø' => 'o',
+		'ù' => 'u',
+		'ú' => 'u',
+		'û' => 'u',
+		'ü' => 'u',
+		'ý' => 'y',
+		'þ' => 'b',
+		'ÿ' => 'y',
+		'ƒ' => 'f',
+		'ă' => 'a',
+		'ș' => 's',
+		'ț' => 't',
+		'œ' => 'oe',
+		'+' => 'plus',
+		'/' => '-',
+		' ' => '-'
+	);
+	$string         = strtr( $string, $normalizeChars );
+	//Make alphanumeric (removes all other characters)
+	$string = preg_replace( "/[^a-z0-9_\s-]/", "", $string );
+	//Clean up multiple dashes or whitespaces
+	$string = preg_replace( "/[\s-]+/", "-", $string );
+	//Convert whitespaces and underscore to dash
+	//$string = preg_replace( "/[\s_]/", "-", $string );
+
+	return $string;
+}
+
+
 class WP84ApidaeTemplate {
 	/**
 	 * retourne le résultat HTML d'un template en fonction d'un JSON
@@ -213,6 +272,8 @@ class WP84ApidaeTemplate {
 						$sR = $inputs[2];
 					}
 				}
+			} elseif ( strpos( $matches[1], 'detaillink' ) === 0 ) {
+				$sR = site_url( '/apiref/' . wp84_slugify( $oJS->get( '$.type' )[0] ) . '/' . wp84_slugify( $oJS->get( '$.localisation.adresse.commune.nom' )[0] ) . '/' . wp84_slugify( $oJS->get( '$.nom.libelleFr' )[0]) . '/' . wp84_slugify( $oJS->get( '$.id' )[0] ) . '-[detailid]' );
 			} else {
 				$func = explode( ':', $matches[1] );
 				$iC   = count( $func );
@@ -365,7 +426,7 @@ class WP84ApidaeTemplate {
 			for ( $i = 0; $i < $iNbRs; $i ++ ) {
 				$inputs = explode( '|||', $matches[1][ $i ] );
 
-				if ( count( $inputs ) > 1 && ($inputs[0] === 'critere' || $inputs[0] === 'recherche')  && count( $inputs ) === 7 ) {
+				if ( count( $inputs ) > 1 && ( $inputs[0] === 'critere' || $inputs[0] === 'recherche' ) && count( $inputs ) === 7 ) {
 					$oUse['moteur'][ $inputs[3] ] = array(
 						'label'     => $inputs[2],
 						'code'      => $inputs[4],
@@ -415,10 +476,10 @@ class WP84ApidaeTemplate {
 						'[link]',
 						'[label]'
 					), array(
-						remove_query_arg( array( 'apicritere' ) ),
+						add_query_arg( 'apisearch', get_query_var( 'apisearch' ), get_page_link() ),
 						$inputs[1]
 					), $bRemoveLink === true ? $inputs[2] : $inputs[3] );
-				} elseif ( count( $inputs ) > 1 && ($inputs[0] === 'critere' || $inputs[0] === 'recherche') && count( $inputs ) === 7 ) {
+				} elseif ( count( $inputs ) > 1 && ( $inputs[0] === 'critere' || $inputs[0] === 'recherche' ) && count( $inputs ) === 7 ) {
 					//lien pour enlever le parametre si déjà sélectionné
 					$aDf         = array_intersect( $oUse['categorie'][ $oUse['moteur'][ $inputs[3] ]['categorie'] ], $aParms );
 					$bRemoveLink = false;
