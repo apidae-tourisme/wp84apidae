@@ -384,7 +384,7 @@ class WP84Apidae {
 						$sMoteur,
 						get_query_var('apisearch', ''),
 						'apisearch',
-						remove_query_arg(array('apisearch', 'apicritere')),
+						get_page_link(),
 						'<input type="hidden" name="apicritere" value="'.get_query_var('apicritere').'">',
 
 					), $sHeader ) . $content . str_replace( array( '[count]' ), array( $nbOBT ), $sFooter );
