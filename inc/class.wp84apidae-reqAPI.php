@@ -108,7 +108,7 @@ class WP84ApidaeReqAPI {
 			$ch = curl_init();
 			curl_setopt( $ch, CURLOPT_URL, $url );
 			curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
-			curl_setopt( $ch, CURLOPT_TIMEOUT, 5 );
+			curl_setopt( $ch, CURLOPT_TIMEOUT, 15 );
 			$isValid = ! curl_errno( $ch );
 			$rep  = curl_exec( $ch );
 			curl_close( $ch );
@@ -124,14 +124,13 @@ class WP84ApidaeReqAPI {
 				}
 				$numFound = array_key_exists( 'numFound', $rep ) ? intval( $rep['numFound'] ) : 0;
 				$ret      = ( $numFound > 0 ) ? $rep['objetsTouristiques'] : array();
-
 				//$nbPages= $numFound>0?ceil($numFound/$cnt):0;
 				return array( $numFound, $ret );
 			} else {
-				return array( 0, false );
+				return array( 0, array() );
 			}
 		} else {
-			return array( 0, false );
+			return array( 0, array() );
 		}
 	}
 
