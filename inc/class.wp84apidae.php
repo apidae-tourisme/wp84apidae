@@ -1,5 +1,7 @@
 <?php
 
+//TODO Ajax reload of template when using the search bar
+
 /**
  * Classe principale du plugin, methodes statiques
  */
@@ -65,32 +67,18 @@ class WP84Apidae {
 		if ( ! wp_next_scheduled( 'wp84apidae_cacheclear' ) ) {
 			wp_schedule_event( time(), 'hourly', 'wp84apidae_cacheclear' );
 		}
-		if ( ! mkdir( WP84APIDAE_PLUGIN_DIR . DIRECTORY_SEPARATOR . 'tmp', 0755 ) ) {
-			set_transient( 'wp84apidae_msg_status', 'dir_tmp_error', 5 );
+		if ( version_compare( $GLOBALS['wp_version'], '4.7', '>=' ) && version_compare( phpversion(), '5.6.0', '>=' ) ) {
+			set_transient( 'wp84apidae_msg_status', 'install_success', 5 );
 		} else {
-			if ( version_compare( $GLOBALS['wp_version'], '4.7', '>=' ) && version_compare( phpversion(), '5.6.0', '>=' ) ) {
-				set_transient( 'wp84apidae_msg_status', 'install_success', 5 );
-			} else {
-				set_transient( 'wp84apidae_msg_status', 'version_doubt', 5 );
-			}
-
+			set_transient( 'wp84apidae_msg_status', 'version_doubt', 5 );
 		}
-
 	}
 
 	/**
 	 * Notices admin sur l'install du plugin
 	 */
 	public static function do_admin_notice() {
-		if ( get_transient( 'wp84apidae_msg_status' ) === 'dir_tmp_error' ) {
-			?>
-			<div class="notice notice-error is-dismissible">
-				<p>Le répertoire de cache n'a pas pu être créé !! Le plugin ne pourra pas utiliser de cache pour les
-					requêtes apidae, vous ne disposez pas des droits suffisant pour créer un dossier tmp dans le
-					répertoire du plugin.</p>
-			</div>
-			<?php
-		} elseif ( get_transient( 'wp84apidae_msg_status' ) === 'install_success' ) {
+		if ( get_transient( 'wp84apidae_msg_status' ) === 'install_success' ) {
 			?>
 			<div class="notice notice-success is-dismissible">
 				<p>Le plugin Wordpress Apidae a été installé avec succès !</p>
@@ -349,7 +337,7 @@ class WP84Apidae {
 					}
 					$aTmpQr = $parbase;
 					foreach ( $aParams as $sParam ) {
-						if (!empty($oObj['moteur'][ $sParam ]['code'])) {
+						if ( ! empty( $oObj['moteur'][ $sParam ]['code'] ) ) {
 							$aTMQR = json_decode( '{' . $oObj['moteur'][ $sParam ]['code'] . '}', true );
 
 							if ( ! empty( $aTMQR['criteresQuery'] ) ) {
@@ -379,13 +367,20 @@ class WP84Apidae {
 				$sFooter .= WP84ApidaeTemplate::templateHeadFoot( $tconf['footer'], $iMaxP, $iCurrPage, $aParams, array_key_exists( 'paged', $atts ) );
 				$sFooter .= '</div>';
 				$content .= array_key_exists( 'paged', $atts ) ? '</div>' : '';
-				$ret     = str_replace( array( '[count]', '[moteur]', '[search]', '[searchname]', '[linknocritere]', '[inputcriteres]' ), array(
+				$ret     = str_replace( array(
+						'[count]',
+						'[moteur]',
+						'[search]',
+						'[searchname]',
+						'[linknocritere]',
+						'[inputcriteres]'
+					), array(
 						$nbOBT,
 						$sMoteur,
-						get_query_var('apisearch', ''),
+						get_query_var( 'apisearch', '' ),
 						'apisearch',
 						get_page_link(),
-						'<input type="hidden" name="apicritere" value="'.get_query_var('apicritere').'">',
+						'<input type="hidden" name="apicritere" value="' . get_query_var( 'apicritere' ) . '">',
 
 					), $sHeader ) . $content . str_replace( array( '[count]' ), array( $nbOBT ), $sFooter );
 				//js - css
@@ -407,7 +402,7 @@ class WP84Apidae {
 			$ret = '';
 		}
 
-		return do_shortcode($ret);
+		return do_shortcode( $ret );
 	}
 
 	/**
@@ -430,7 +425,7 @@ class WP84Apidae {
 			// stop interferring with other $posts arrays on this page (only works if the sidebar is rendered *after* the main page)
 			$fakepage_WP84_detect = true;
 			//charger template
-			$aTemplateDetail = self::getlistdetail( $wp->query_vars['templatedetailid']);
+			$aTemplateDetail = self::getlistdetail( $wp->query_vars['templatedetailid'] );
 			$aTemplateJSON   = count( $aTemplateDetail ) === 1 ? json_decode( $aTemplateDetail[0]['confvalue'], true ) : false;
 			if ( $aTemplateJSON !== false ) {
 				//charger OBT
