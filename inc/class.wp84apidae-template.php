@@ -365,7 +365,7 @@ class WP84ApidaeTemplate {
 			for ( $i = 0; $i < $iNbRs; $i ++ ) {
 				$inputs = explode( '|||', $matches[1][ $i ] );
 
-				if ( count( $inputs ) > 1 && $inputs[0] === 'critere' && count( $inputs ) === 7 ) {
+				if ( count( $inputs ) > 1 && ($inputs[0] === 'critere' || $inputs[0] === 'recherche')  && count( $inputs ) === 7 ) {
 					$oUse['moteur'][ $inputs[3] ] = array(
 						'label'     => $inputs[2],
 						'code'      => $inputs[4],
@@ -418,7 +418,7 @@ class WP84ApidaeTemplate {
 						remove_query_arg( array( 'apicritere' ) ),
 						$inputs[1]
 					), $bRemoveLink === true ? $inputs[2] : $inputs[3] );
-				} elseif ( count( $inputs ) > 1 && $inputs[0] === 'critere' && count( $inputs ) === 7 ) {
+				} elseif ( count( $inputs ) > 1 && ($inputs[0] === 'critere' || $inputs[0] === 'recherche') && count( $inputs ) === 7 ) {
 					//lien pour enlever le parametre si déjà sélectionné
 					$aDf         = array_intersect( $oUse['categorie'][ $oUse['moteur'][ $inputs[3] ]['categorie'] ], $aParms );
 					$bRemoveLink = false;
