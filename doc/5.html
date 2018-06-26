@@ -34,7 +34,7 @@
   <li class="wp84lidoc">Préciser un JSONPath directement entre double accolade retournera <strong>le premier élément trouvé</strong> par celui-ci :<br/> ex. {{$.nom.libelleFr}} retournera le nom français d'un objet touristique</li>
 <li class="wp84lidoc">
                     Les JSONPath peuvent retourner plusieurs réponses pour cela il est possible d'utiliser la syntaxe suivante : <br/>
-                    {{<span class="wp84pink">foreach</span><span class="wp84yellow">|||</span><span class="wp84lightblue">$.illustrations.*.nom.libelleFr</span><span class="wp84yellow">|||</span><span class="wp84lightgreen">&lt;p&gt;[val] ([count])&lt;/p&gt;</span>}} <br/>
+    <code>{{<span class="wp84pink">foreach</span><span class="wp84yellow">|||</span><span class="wp84lightblue">$.illustrations.*.nom.libelleFr</span><span class="wp84yellow">|||</span><span class="wp84lightgreen">&lt;p&gt;[val] ([count])&lt;/p&gt;</span>}} <br/></code>
                     Chaque élément est séparé par <span class="wp84yellow">des triples "|"</span> le mot clé <span class="wp84pink">foreach</span>, le <span class="wp84lightblue">jsonpath</span> et <span class="wp84lightgreen">le microtemplate html.</span><br/>
                     la valeur retournée par chaque itération du JSONPath remplacera le mot clé [val]. Un mot clé spécial [count] est disponible, c'est un simple compteur il affichera 1 pour la première valeur, deux pur la deuxième, etc...<br/>Cet exemple affiche pour chaque descrition d'illustration un paragraphe avec la description et entre parenthèses le compteur.<br/>
                     ex (code généré):<br/>
@@ -50,7 +50,7 @@
                     On peut avoir besoin d'afficher un code précis pour une ou des valeurs d'un JSONPath, la syntaxe est similaire à celle du tag foreach, on utilise alors <span class="wp84pink">forif</span>:<br/>
                     <strong>ATTENTION</strong>: si le principe est le même que foreach et que l'on peut préciser plusieurs plusieurs JSONPath séparés par <span class="wp84red">deux ";"</span>, la valeur sera testée <strong>uniquement sur le premier JSONPath</strong>.<br/>
                     Ce tag s'utilise de la manière suivante:<br/>
-                    {{<span class="wp84pink">forif</span><span class="wp84yellow">|||</span><span class="wp84lightblue">$.illustrations.*.type</span><span class="wp84red">;;</span><span class="wp84lightblue">$.illustrations.*.nom.libelleFr</span><span class="wp84yellow">|||</span><span class="wp84purple">IMAGE1</span><span class="wp84lightyellow">%%</span><span class="wp84lightgreen">&lt;p&gt;[val1] ([count]) : &lt;b&gt;[val0]&lt;/b&gt;&lt;/p&gt;</span><span class="wp84red">;;</span><span class="wp84purple">else</span><span class="wp84lightyellow">%%</span><span class="wp84lightgreen">&lt;p&gt;default&lt;/p&gt;</span>}}
+    <code>{{<span class="wp84pink">forif</span><span class="wp84yellow">|||</span><span class="wp84lightblue">$.illustrations.*.type</span><span class="wp84red">;;</span><span class="wp84lightblue">$.illustrations.*.nom.libelleFr</span><span class="wp84yellow">|||</span><span class="wp84purple">IMAGE1</span><span class="wp84lightyellow">%%</span><span class="wp84lightgreen">&lt;p&gt;[val1] ([count]) : &lt;b&gt;[val0]&lt;/b&gt;&lt;/p&gt;</span><span class="wp84red">;;</span><span class="wp84purple">else</span><span class="wp84lightyellow">%%</span><span class="wp84lightgreen">&lt;p&gt;default&lt;/p&gt;</span>}}</code>
                         <br/>Dans la partie de <span class="wp84lightgreen">microtemplating</span>, on précise la valeur que le <span class="wp84purple">JSONPath est sensé avoir</span>, puis une séparattion avec <span class="wp84lightyellow">%%</span> puis le <span class="wp84lightgreen">microtemplate</span> associé.<br/>
                         Une valeur spéciale <strong>else</strong>, non obligatoire, permet d'afficher un template par défaut à chaque itération si aucune valeur n'est trouvée,si on ne précise pas de else, seules les valeurs spécifiées provoqueront l'affichage du microtemplate associé. Cela peut-être utile pour n'afficher que certains labels
                 </li>
@@ -58,15 +58,16 @@
 <p class="wp84lidoc">
                 <strong>CONSEILS :</strong> pour les <span class="wp84pink">forif</span> utilisez pour les <span class="wp84purple">valeurs à tester</span> des références ou des identifiants sinon le code risque de ne pas fonctionner correctement.<br/>
                 Ayez une bonne connaissance de JSONPath cela évitera du code inutilement complexe ex : <br/>
-                {{foreach|||$.illustrations[0].nom.libelleFr;;$.illustrations[0].traductionFichiers[0].urlFiche|||&lt;p&gt;&lt;img width="210" height="158" src="[val1]" alt="[val0]" /&gt;&lt;/p&gt;}}<br/>
+    <code>{{foreach|||$.illustrations[0].nom.libelleFr;;$.illustrations[0].traductionFichiers[0].urlFiche|||&lt;p&gt;&lt;img width="210" height="158" src="[val1]" alt="[val0]" /&gt;&lt;/p&gt;}}</code><br/>
                 Ce code affichera la première image d'un objet touristique avec sa description en alt, le JSONPath ici est limité au premier résultat.<br/>
                 Un code simple est ce qui permettra de meilleures performances et évitera les erreurs.
             </p>
-<p class="wp84lidoc"><strong>LES TAGS NE PEUVENT PAS S'IMBRIQUER LES UNS DANS LES AUTRES !</strong></p>
-<p class="wp84lidoc">Une liste  non exhaustive de JSONPath est à votre disposition à la fin de cette documentation afin de vous faciliter la tâche.</p>
-<p class="wp84lidoc">Maintenant que nous avons vu comment fonctionnent la partie template nous allons pouvoir aborder comment générer un lien vers le détail d'une fiche. Pour cela nous partirons de l'exemple suivant que vous pourrez adapter :</p>
-<p class="wp84lidoc">&lt;a href=&quot;<span class="wp84yellow">/apiref</span><span class="wp84pink">/hotel</span><span class="wp84lightblue">/{{tourl:$.localisation.adresse.commune.nom}}</span><span class="wp84lightgreen">/{{tourl:$.nom.libelleFr}}</span><span class="wp84purple">/{{$.id}}</span><span class="wp84lightyellow">-[detailid]</span>&quot;&gt;...&lt;/a&gt;</p>
-<p class="wp84lidoc">Notez que le lien commence par  <span class="wp84yellow">/apiref</span> c'est le mot clé indispensable  qui nous permet de savoir que nous allons dans une page de détail.</p>
+<p class="wp84lidoc"><strong>LES TAGS NE PEUVENT PAS S'IMBRIQUER LES UNS DANS LES AUTRES, cependant les fonctions peuvent, elles, être imbriqués</strong></p>
+<div class="wp84lidoc">
+<p>Une liste  non exhaustive de JSONPath est à votre disposition à la fin de cette documentation afin de vous faciliter la tâche.</p>
+<p>Maintenant que nous avons vu comment fonctionnent la partie template nous allons pouvoir aborder comment générer un lien vers le détail d'une fiche. Pour cela nous partirons de l'exemple suivant que vous pourrez adapter :</p>
+<p>&lt;a href=&quot;<span class="wp84yellow">/apiref</span><span class="wp84pink">/hotel</span><span class="wp84lightblue">/{{tourl:$.localisation.adresse.commune.nom}}</span><span class="wp84lightgreen">/{{tourl:$.nom.libelleFr}}</span><span class="wp84purple">/{{$.id}}</span><span class="wp84lightyellow">-[detailid]</span>&quot;&gt;...&lt;/a&gt;</p>
+<p>Notez que le lien commence par  <span class="wp84yellow">/apiref</span> c'est le mot clé indispensable  qui nous permet de savoir que nous allons dans une page de détail.</p>
 <p class="wp84lidoc"><span class="wp84pink">/hotel</span> correspond au type d'objet, et vu que nous nous basons sur des sélections et qu'il est préférable qu'elles soient pour un même type d'objet le mot clé hotel est indiqué &quot;en dur&quot; il est possible de le déterminer de manière dynamique mais il vous faudra faire  un forif sur les valeurs de $.type qui correspond au type d'objet touristique.</p>
 <p class="wp84lidoc"><span class="wp84lightblue">/{{tourl:$.localisation.adresse.commune.nom}}</span></p> 
 <p>la partie suivante est un jsonpath qui commence par le mot clé <strong>tourl:</strong> ce mot clé permet de transformer du texte pour qu'il soit utilisable dans une url, ensuite le jsonpath correspond au nom de la commune. Tout jsonpath précédé de <strong>tourl:</strong> sera transformé pour être &quot;url compliant&quot;.</p>
@@ -79,3 +80,18 @@
 <p>Pour récapituler nous avons un lien du type:</p>
 <p><span class="wp84yellow">/apiref</span><span class="wp84pink">/type d'objet</span><span class="wp84lightblue">/commune</span><span class="wp84lightgreen">/nom de l'objet</span><span class="wp84purple">/identifiant apidae de l'objet</span><span class="wp84lightyellow">-identifiant du template de détail</span></p>
 <p>Cette réécriture d'url est mise en place avec le plugin et elle est supprimée si vous le désinstallez.</p>
+</div>
+<section class="taglist">
+    <h3>Liste des fonctions autorisés dans les tags</h3>
+    <ul>
+        <li><span class="wp84purple">tourl</span> : urlencode</li>
+        <li><span class="wp84purple">tohttps</span> : remplace http:// par https:// (utile pour les images apidae qui ont une url en http sur un site https)</li>
+        <li><span class="wp84purple">nl2br</span> : convertit les \n en &lt;br&gt;</li>
+        <li><span class="wp84purple">addslashes</span> : ajoute des slashs devant les guillemets et apostrophes</li>
+        <li><span class="wp84purple">stripslashes</span> : enlève les slashs d'échapement</li>
+        <li><span class="wp84purple">strtolower</span> : convertit en minuscule</li>
+        <li><span class="wp84purple">strtoupper</span> : convertit en majuscule</li>
+        <li><span class="wp84purple">esc_attr</span> : échappe la chaine pour une utilisation dans un attribut html</li>
+        <li><span class="wp84purple">maxlength</span>:<span class="wp84pink">taille</span> : tronque la chaine suivant la taille désirée (si elle est plus grande que la taille indiqué elle sera coupée)</li>
+    </ul>
+</section>
