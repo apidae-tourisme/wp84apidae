@@ -2,6 +2,16 @@
 <p>Après avoir précisé un nom pour le retrouver dans la <strong>fabrique à shortcode</strong>, vous pourrez préciser du code html qui se trouvera <strong>avant</strong> le code de la liste (Entête), le code du template qui se répète à chaque objet toutristique (Corps de liste)  et un code qui prend place <strong>après</strong> le code de la liste (Pied).</p>
 <h5>Entete et Pied</h5>
 <p>L'entête et le pied doivent contenir du code HTML. Une valeur spéciale [count] est disponible et sera remplacée par le nombre de résultats. La valeur spéciale<strong> [moteur] </strong>est également disponible mais <strong>uniquement</strong> dans l'entête. </p>
+<p>Le tag <span class="wp84red">[search]</span> contient la valeur du critère de recherche, le tag <span class="wp84purple">[searchname]</span> contient le nom du critere de recherche (actuellement "apisearch") a placer dans l'input</p>
+<p>Le tag <span class="wp84pink">[inputcriteres]</span> contient les inputs cachés pouvant contenir les queries des critères (Ex: &lt;input type="hidden" name="apicritere" value="activite"&gt; </p>
+<p>Le tag <span class="wp84lightgreen">[linknocriteres]</span> affiche un lien vers la liste sans paramètre get dans l'url </p>
+<p>Une barre de recherche peut donc se faire comme ceci:</p>
+<code>
+    &lt;form action="<span class="wp84lightgreen">[linknocritere]</span>" id="searchform" method="get" &gt;<br>
+    <span class="wp84pink">[inputcriteres]</span><br>
+    &lt;input type="search" name="<span class="wp84purple">[searchname]</span>" value="<span class="wp84red">[search]</span>" placeholder="Rechercher"&gt;<br>
+    &lt;input type="submit" value="Rechercher" id="searchsubmit" class="button &gt;<br>
+&lt;/form&gt;</code>
 <p>Un <strong>&quot;tag&quot; spécial</strong> entre {{...}}est disponible pour afficher la pagination dans l'entête et le pied:</p>
 <p>{{<span class="wp84pink">&lt;a href=&quot;[link]&quot; title=&quot;aller à la page précédente&quot;&gt;&amp;lt;&amp;lt;&lt;/a&gt;</span><span class="wp84yellow">|||</span><span class="wp84lightblue">&lt;a href=&quot;[link]&quot; title=&quot;aller à la page suivante&quot;&gt;&amp;gt;&amp;gt;&lt;/a&gt;</span><span class="wp84yellow">|||</span><span class="wp84lightgreen">&lt;ul class=&quot;adtlistpage&quot;&gt;</span><span class="wp84yellow">|||</span><span class="wp84lightyellow">&lt;li&gt;&lt;a href=&quot;[link]&quot; title=&quot;aller à la page [nbpage]&quot;&gt;[nbpage]&lt;/a&gt;&lt;/li&gt;</span><span class="wp84yellow">|||</span><span class="wp84purple">&lt;li&gt;[nbpage]&lt;/li&gt;</span><span class="wp84yellow">|||</span><span class="wp84lightgreen2">&lt;/ul&gt;</span>}}</p>
 <p>Chaque élément est séparé par <span class="wp84yellow">|||</span> :</p>
