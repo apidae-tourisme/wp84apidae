@@ -81,7 +81,7 @@
 <p><span class="wp84yellow">/apiref</span><span class="wp84pink">/type d'objet</span><span class="wp84lightblue">/commune</span><span class="wp84lightgreen">/nom de l'objet</span><span class="wp84purple">/identifiant apidae de l'objet</span><span class="wp84lightyellow">-identifiant du template de détail</span></p>
 <p>Cette réécriture d'url est mise en place avec le plugin et elle est supprimée si vous le désinstallez.</p>
 </div>
-<section class="taglist">
+<section class="taglist wp84lidoc">
     <h3>Liste des fonctions autorisés dans les tags</h3>
     <ul>
         <li><span class="wp84purple">tourl</span> : urlencode</li>
@@ -94,4 +94,40 @@
         <li><span class="wp84purple">esc_attr</span> : échappe la chaine pour une utilisation dans un attribut html</li>
         <li><span class="wp84purple">maxlength</span>:<span class="wp84pink">taille</span> : tronque la chaine suivant la taille désirée (si elle est plus grande que la taille indiqué elle sera coupée)</li>
     </ul>
+</section>
+<section class="example wp84lidoc">
+    <h3>Exemple d'un template de liste</h3>
+    <p>Un exemple concret parle surement mieux que des mots alors voici un exemple d'un template de liste</p>
+    <pre>&lt;script&gt;
+   //Pour google maps on peut ajouter nos marqueurs ici
+   if (typeof markerNodes === 'undefined')
+      var markerNodes = [];
+   markerNodes.push({
+        'id': "<span class="wp84pink">{{$.id}}</span>",
+        'name': "<span class="wp84purple">{{esc_attr:$.nom.libelleFr}}</span>",
+        'addressLine1': "<span class="wp84pink">{{esc_attr:$.localisation.adresse.adresse1}}</span>",
+        'addressLine2': "<span class="wp84purple">{{esc_attr:$.localisation.adresse.codePostal}}, {{esc_attr:$.localisation.adresse.commune.nom}}</span>",
+        'lng': "<span class="wp84pink">{{esc_attr:$.localisation.geolocalisation.geoJson.coordinates[0]}}</span>",
+        'lat': "<span class="wp84purple">{{esc_attr:$.localisation.geolocalisation.geoJson.coordinates[1]}}</span>",
+        'link': "<span class="wp84lightyellow">/apiref/{{tourl:$.type}}/{{tourl:$.localisation.adresse.commune.nom}}/{{tourl:$.nom.libelleFr}}/{{$.id}}-[detailid]</span>"
+   });
+&lt;/script&gt;
+&lt;div class="apidae_cell"&gt;
+   &lt;div class=image-container"&gt;
+        &lt;a href="<span class="wp84lightyellow">/apiref/{{strtolower:tourl:$.type}}/{{strtolower:tourl:$.localisation.adresse.commune.nom}}/{{strtolower:tourl:$.nom.libelleFr}}/{{$.id}}-[detailid]"</span>&gt;
+        &lt;div class="img" style="background-image: url(<span class="wp84lightgreen">{{esc_attr:tohttps:$.illustrations[0].traductionFichiers[0].urlDiaporama}}</span>)"&gt;&lt;/div&gt;
+      &lt;/a&gt;
+   &lt;/div&gt;
+   &lt;section&gt;
+        &lt;div class="textblock"&gt;&lt;h3 class="title"&gt;<span class="wp84pink">{{$.nom.libelleFr}}</span>&lt;/h3&gt;
+        &lt;h4 class="commune"&gt;<span class="wp84purple">{{$.localisation.adresse.commune.nom}}</span>&lt;/h4&gt;
+        &lt;p class="description"&gt;<span class="wp84pink">{{$.presentation.descriptifCourt.libelleFr}}</span>&lt;/p&gt;
+         &lt;div&gt;
+        &lt;a href="<span class="wp84lightyellow">/apiref/{{tourl:$.type}}/{{tourl:$.localisation.adresse.commune.nom}}/{{tourl:$.nom.libelleFr}}/{{$.id}}-[detailid]</span>"&gt;
+            &lt;span&gt;Lire la suite&lt;/span&gt;&lt;/a&gt;
+         &lt;/div&gt;
+      &lt;/div&gt;
+   &lt;/section&gt;
+&lt;/div&gt;
+    </pre>
 </section>
