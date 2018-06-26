@@ -104,7 +104,6 @@ class WP84ApidaeReqAPI {
 		$md      = md5( $url );
 		$cache  = self::getCache( $md );
 		$isValid = true;
-		$rep = false;
 		if ( $cache === false ) {
 			$ch = curl_init();
 			curl_setopt( $ch, CURLOPT_URL, $url );
@@ -114,6 +113,8 @@ class WP84ApidaeReqAPI {
 			$rep  = curl_exec( $ch );
 			curl_close( $ch );
 			$rep = json_decode( $rep, true );
+		} else {
+			$rep = $cache;
 		}
 
 		if ( $isValid === true ) {
