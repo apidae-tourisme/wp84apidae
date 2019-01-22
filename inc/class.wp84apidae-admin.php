@@ -44,12 +44,12 @@ class WP84ApidaeAdmin{
         if(substr_compare($hook, 'ws84apidae', strlen($hook)-strlen('ws84apidae'), strlen('ws84apidae')) !== 0){
             return;
         }
-        wp_enqueue_style('wp84apidaecsscore', plugins_url('wp84apidae').'/css/core.css');
-        wp_enqueue_script( 'wp84apidaeangular', plugins_url('wp84apidae').'/js/angular.js' );
-        wp_enqueue_script( 'wp84apidaeangularmessages', plugins_url('wp84apidae').'/js/angular-messages.min.js', array('wp84apidaeangular') );
-        wp_enqueue_script( 'wp84apidaeangularsanitize', plugins_url('wp84apidae').'/js/angular-sanitize.min.js', array('wp84apidaeangular') );
+        wp_enqueue_style('wp84apidaecsscore', plugins_url('../css/core.css',__FILE__));
+        wp_enqueue_script('wp84apidaeangular', plugins_url('../js/angular.js',__FILE__));
+        wp_enqueue_script('wp84apidaeangularmessages', plugins_url('../js/angular-messages.min.js',__FILE__), array('wp84apidaeangular') );
+        wp_enqueue_script('wp84apidaeangularsanitize', plugins_url('../js/angular-sanitize.min.js',__FILE__), array('wp84apidaeangular') );
 
-        wp_enqueue_script( 'wp84apidaejscore', plugins_url('wp84apidae').'/js/core.js'  );
+        wp_enqueue_script('wp84apidaejscore', plugins_url('../js/core.js',__FILE__));
         
         wp_localize_script( 'wp84apidaejscore', 'ajax_object',
             array( 'ajax_url' => admin_url( 'admin-ajax.php' ) , 'nonce' => self::$nonce, 'base_params' => get_option('wp84apidae_params', json_encode(array())), 'dureecache'=> get_option('wp84apidae_dureecache',15) ) );
@@ -573,7 +573,7 @@ class WP84ApidaeAdmin{
     </div>
     <div ng-show="tabSelected === 'doc'" ng-controller="wp84ApidaeDoc">
         <h2>Documentation</h2>
-        <p><a href="<?php echo plugins_url('wp84apidae'); ?>/doc/doc.pdf" target="_blank">Téléchargez la documentation en PDF</a></p>
+        <p><a href="<?php echo plugins_url('../',__FILE__); ?>doc/doc.pdf" target="_blank">Téléchargez la documentation en PDF</a></p>
         <div ng-bind-html="doc"></div>
     </div>
 </div>
