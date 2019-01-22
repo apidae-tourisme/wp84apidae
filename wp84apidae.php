@@ -33,7 +33,7 @@ if ( !function_exists( 'add_action' )) {
 	exit;
 }
 
-define( 'WP84APIDAE_VERSION', '1.0b' );
+define( 'WP84APIDAE_VERSION', '1.0c' );
 define( 'WP84APIDAE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'WP84APIDAE_PLUGIN_INC', plugin_dir_path( __FILE__ ).DIRECTORY_SEPARATOR.'inc'.DIRECTORY_SEPARATOR );
 define( 'WP84APIDAE_PLUGIN_JS', plugin_dir_path( __FILE__ ).DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR );
